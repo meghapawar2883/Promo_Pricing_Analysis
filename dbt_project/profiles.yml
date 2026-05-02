@@ -1,0 +1,12 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      account: mw09187
+      user: MEGHA_PAWAR_COGNIZANT_COM
+      role: MEGHA_PAWAR_COGNIZANT_COM_ROLE
+      database: MEGHA_PAWAR_COGNIZANT_COM_DB
+      warehouse: DEMO_WH
+      schema: PROMO_MARTS
+      threads: 4
