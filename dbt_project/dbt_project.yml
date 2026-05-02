@@ -1,0 +1,22 @@
+name: 'promo_analytics'
+version: '1.0.0'
+
+profile: 'default'
+
+model-paths: ["models"]
+test-paths: ["tests"]
+macro-paths: ["macros"]
+
+target-path: "target"
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  promo_analytics:
+    staging:
+      +materialized: view
+      +schema: PROMO_ANALYTICS
+    marts:
+      +materialized: table
+      +schema: PROMO_MARTS
