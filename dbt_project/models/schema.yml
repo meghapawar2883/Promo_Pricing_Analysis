@@ -1,0 +1,123 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: "Cleaned transactions - nulls handled, duplicates removed, outliers flagged, validated"
+    columns:
+      - name: BASKET_ID
+        tests:
+          - not_null
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+      - name: SALES_VALUE
+        tests:
+          - not_null
+      - name: HOUSEHOLD_KEY
+        tests:
+          - not_null
+      - name: QUANTITY
+        tests:
+          - not_null
+
+  - name: stg_products
+    description: "Cleaned products - deduplicated, standardized, nulls filled with UNKNOWN"
+    columns:
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+          - unique
+      - name: DEPARTMENT
+        tests:
+          - not_null
+
+  - name: stg_campaigns
+    description: "Cleaned campaigns - validated date ranges, nulls removed"
+    columns:
+      - name: CAMPAIGN_ID
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_households
+    description: "Cleaned demographics - deduplicated, nulls imputed"
+    columns:
+      - name: HOUSEHOLD_KEY
+        tests:
+          - not_null
+          - unique
+
+  - name: stg_causal
+    description: "Cleaned promo flags - deduplicated, promo_type categorized"
+    columns:
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+      - name: PROMO_TYPE
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['DISPLAY_AND_MAILER', 'DISPLAY_ONLY', 'MAILER_ONLY', 'NO_PROMO']
+
+  - name: mart_promo_effectiveness
+    description: "Product-store-week level promo effectiveness with lift calculations"
+    columns:
+      - name: PRODUCT_ID
+        tests:
+          - not_null
+
+  - name: mart_promo_roi
+    description: "ROI by promotion type"
+
+  - name: mart_price_elasticity
+    description: "Price elasticity proxy by department and commodity"
+    columns:
+      - name: DEPARTMENT
+        tests:
+          - not_null
+
+  - name: mart_campaign_performance
+    description: "Campaign-level performance with pre/during/post spend"
+    columns:
+      - name: CAMPAIGN
+        tests:
+          - not_null
+
+  - name: mart_discount_depth
+    description: "Sales lift by discount depth band"
+    columns:
+      - name: DISCOUNT_BAND
+        tests:
+          - not_null
+
+  - name: mart_cannibalization
+    description: "Category-level cannibalization analysis"
+    columns:
+      - name: DEPARTMENT
+        tests:
+          - not_null
+
+  - name: mart_halo_effect
+    description: "Basket-level halo effect analysis"
+    columns:
+      - name: BASKET_TYPE
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Contains Promo Item', 'No Promo Item']
+
+  - name: mart_pantry_loading
+    description: "Pantry loading vs true demand detection"
+    columns:
+      - name: CAMPAIGN_ID
+        tests:
+          - not_null
+
+  - name: mart_segment_promo_response
+    description: "Promo effectiveness by customer segment"
+    columns:
+      - name: CUSTOMER_SEGMENT
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['Champions', 'Loyal Customers', 'Recent Customers', 'At Risk']
