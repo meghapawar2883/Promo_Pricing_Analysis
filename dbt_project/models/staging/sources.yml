@@ -1,0 +1,15 @@
+version: 2
+
+sources:
+  - name: raw
+    database: MEGHA_PAWAR_COGNIZANT_COM_DB
+    schema: PROMO_ANALYTICS
+    tables:
+      - name: TRANSACTION_DATA
+      - name: PRODUCT
+      - name: HH_DEMOGRAPHIC
+      - name: CAMPAIGN_DESC
+      - name: CAMPAIGN_TABLE
+      - name: COUPON
+      - name: COUPON_REDEMPT
+      - name: CAUSAL_DATA
